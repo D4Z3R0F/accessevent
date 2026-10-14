@@ -13,20 +13,20 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check project structure
         run: |
-          test -f app.py
-          test -f config.py
-          test -f models.py
-          test -f routes/auth.py
-          test -f routes/events.py
-          test -f routes/registrations.py
-          test -f utils/auth_helpers.py
+          test -f accessevent/app.py
+          test -f accessevent/config.py
+          test -f accessevent/models.py
+          test -f accessevent/routes/auth.py
+          test -f accessevent/routes/events.py
+          test -f accessevent/routes/registrations.py
+          test -f accessevent/utils/auth_helpers.py
       - name: Check security helpers
         run: |
-          grep -q "hash_password" utils/auth_helpers.py && echo "PASS: hash_password" || echo "FAIL: hash_password"
-          grep -q "generate_token" utils/auth_helpers.py && echo "PASS: jwt" || echo "FAIL: jwt"
-          grep -q "role_required" utils/auth_helpers.py && echo "PASS: roles" || echo "FAIL: roles"
+          grep -q "hash_password" accessevent/utils/auth_helpers.py && echo "PASS: hash_password" || echo "FAIL: hash_password"
+          grep -q "generate_token" accessevent/utils/auth_helpers.py && echo "PASS: jwt" || echo "FAIL: jwt"
+          grep -q "role_required" accessevent/utils/auth_helpers.py && echo "PASS: roles" || echo "FAIL: roles"
       - name: Check accessibility
-        run: "grep -q \"accessibility\" utils/accessibility.py && echo \"PASS: accessibility\" || echo \"FAIL: accessibility"
+        run: grep -q "accessibility" accessevent/utils/accessibility.py && echo "PASS: accessibility" || echo "FAIL: accessibility"
       - name: Syntax check
-        run: python -m py_compile app.py config.py models.py routes/*.py utils/*.py
+        run: python -m py_compile accessevent/app.py accessevent/config.py accessevent/models.py accessevent/routes/*.py accessevent/utils/*.py
       - run: echo "PASS - Day3 Backend Check completed"
