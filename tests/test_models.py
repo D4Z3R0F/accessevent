@@ -55,3 +55,28 @@ def test_registration_unique_per_user_event(client):
     with pytest.raises(Exception):
         db.session.commit()
 
+def test_event_organizer_relationship(client):
+    # Arrange
+    org = User(username="org2", email="org2@mail.ru",
+               password_hash="x", role="organizer")
+    db.session.add(org)
+    db.session.commit()
+    # Act
+    ev = Event(title="Экскурсия", organizer_id=org.id,
+               event_date="2026-11-02 18:00:00")
+    db.session.add(ev)
+    db.session.commit()
+    found = Event.query.filter_by(title="Экскурсия").first()
+    # Assert: связь Event -> Organizer работает
+    assert found is not None
+    assert found.organizer_id == org.id
+
+
+def test_user_deaf_flag_persisted(client):
+    u = User(username="misha", email="misha@mail.ru",
+             password_hash="x", is_deaf=True)
+    db.session.add(u)
+    db.session.commit()
+    found = User.query.filter_by(email="misha@mail.ru").first()
+    # Assert: флаг инклюзивности сохранён и читается из БД
+    assert found.is_deaf is True
