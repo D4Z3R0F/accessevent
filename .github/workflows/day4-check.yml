@@ -74,6 +74,6 @@ jobs:
             || echo "FAIL: no .dockerignore"
  
       - name: Syntax check app.py
-        run: python -m py_compile app.py
+        run: python -m py_compile accessevent/app.py
  
       - run: echo "PASS - Day4 Frontend Check completed"
