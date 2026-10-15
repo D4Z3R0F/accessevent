@@ -44,3 +44,38 @@ def test_events_list_public(client):
     resp = client.get("/api/events")
     assert resp.status_code == 200
 
+def test_create_event_with_token(client):
+    # Arrange: организатор с токеном
+    token = _register_and_login(client, "org3@mail.ru", role="organizer")
+    headers = {"Authorization": "Bearer " + token}
+    # Act
+    resp = client.post("/api/events", json={
+        "title": "Тихий кинопросмотр",
+        "event_date": "2026-11-03 19:00:00",
+        "is_inclusive": True}, headers=headers)
+    # Assert
+    assert resp.status_code == 201
+    assert "event_id" in resp.get_json()
+
+
+def test_register_for_event(client):
+    org_token = _register_and_login(client, "org3@mail.ru", role="organizer")
+    client.post("/api/events", json={
+        "title": "Экскурсия", "event_date": "2026-11-03 12:00:00"},
+        headers={"Authorization": "Bearer " + org_token})
+    events = client.get("/api/events").get_json()
+    event_id = events[0]["id"]
+    # Act: участник регистрируется на мероприятие
+    token = _register_and_login(client, "p3@mail.ru", role="user")
+    resp = client.post("/api/events/" + str(event_id) + "/register",
+                       headers={"Authorization": "Bearer " + token})
+    # Assert
+    assert resp.status_code == 201
+
+
+def test_my_registrations_list(client):
+    token = _register_and_login(client, "p4@mail.ru", role="user")
+    headers = {"Authorization": "Bearer " + token}
+    resp = client.get("/api/my-registrations", headers=headers)
+    # Assert: пустой список собственных регистраций возвращает 200
+    assert resp.status_code == 200
