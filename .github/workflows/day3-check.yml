@@ -26,7 +26,7 @@ jobs:
           grep -q "generate_token" accessevent/utils/auth_helpers.py && echo "PASS: jwt" || echo "FAIL: jwt"
           grep -q "role_required" accessevent/utils/auth_helpers.py && echo "PASS: roles" || echo "FAIL: roles"
       - name: Check accessibility
-        run: grep -q "accessibility" accessevent/utils/accessibility.py && echo "PASS - accessibility" || echo "FAIL: accessibility"
+        run: 'grep -q "accessibility" accessevent/utils/accessibility.py && echo "PASS - accessibility" || echo "FAIL: accessibility"'
       - name: Syntax check
         run: python -m py_compile accessevent/app.py accessevent/config.py accessevent/models.py accessevent/routes/*.py accessevent/utils/*.py
       - run: echo "PASS - Day3 Backend Check completed"
