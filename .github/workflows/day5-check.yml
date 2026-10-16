@@ -22,6 +22,8 @@ jobs:
           test -f accessevent/docs/api.md
           test -f accessevent/docs/assessment.md
       - name: Run tests
-        run: pytest accessevent/tests -v
+        run: |
+          cd accessevent
+          pytest tests -v
       - run: echo "PASS - Day 5 checks completed"
 
