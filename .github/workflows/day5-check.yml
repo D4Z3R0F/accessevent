@@ -24,6 +24,6 @@ jobs:
       - name: Run tests
         run: |
           cd accessevent
-          pytest tests -v
+          PYTHONPATH=. pytest tests -v
       - run: echo "PASS - Day 5 checks completed"
 
