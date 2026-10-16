@@ -50,7 +50,7 @@ def create_event(user):
     )
     db.session.add(event)
     db.session.commit()
-    return jsonify({"message": "Мероприятие создано", "id": event.id}), 201
+    return jsonify({"message": "Мероприятие создано", "event_id": event.id}), 201
 
 
 @events_bp.route("/api/events/<int:event_id>", methods=["PUT"])
