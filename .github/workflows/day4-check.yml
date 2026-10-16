@@ -18,58 +18,58 @@ jobs:
  
       - name: Check static
         run: |
-          test -f static/css/style.css || echo "FAIL: style.css"
-          test -f static/js/main.js || echo "FAIL: main.js"
-          SIZE_CSS=$(wc -c < static/css/style.css)
-          SIZE_JS=$(wc -c < static/js/main.js)
+          test -f accessevent/static/css/style.css || echo "FAIL: style.css"
+          test -f accessevent/static/js/main.js || echo "FAIL: main.js"
+          SIZE_CSS=$(wc -c < accessevent/static/css/style.css)
+          SIZE_JS=$(wc -c < accessevent/static/js/main.js)
           echo "style.css bytes: $SIZE_CSS (need >= 300)"
           echo "main.js bytes: $SIZE_JS (need >= 200)"
  
       - name: Check media queries in CSS
         run: |
-          grep -q "@media" static/css/style.css \
+          grep -q "@media" accessevent/static/css/style.css \
             && echo "PASS: media queries found" \
             || echo "FAIL: no media queries"
  
       - name: Check showNotification in JS
         run: |
-          grep -q "showNotification" static/js/main.js \
+          grep -q "showNotification" accessevent/static/js/main.js \
             && echo "PASS: showNotification found" \
             || echo "FAIL: no showNotification"
  
       - name: Check ARIA attributes in templates
         run: |
-          grep -l "aria-label" templates/*.html \
+          grep -l "aria-label" accessevent/templates/*.html \
             && echo "PASS: aria-label found" \
             || echo "FAIL: no aria-label"
-          grep -l "role=" templates/*.html \
+          grep -l "role=" accessevent/templates/*.html \
             && echo "PASS: role attribute found" \
             || echo "FAIL: no role attribute"
  
       - name: Check Dockerfile
         run: |
-          grep -q "^FROM" Dockerfile \
+          grep -q "^FROM" accessevent/Dockerfile \
             && echo "PASS: FROM found" \
             || echo "FAIL: no FROM"
-          grep -q "^COPY" Dockerfile \
+          grep -q "^COPY" accessevent/Dockerfile \
             && echo "PASS: COPY found" \
             || echo "FAIL: no COPY"
-          grep -q "^CMD" Dockerfile \
+          grep -q "^CMD" accessevent/Dockerfile \
             && echo "PASS: CMD found" \
             || echo "FAIL: no CMD"
  
       - name: Check docker-compose.yml
         run: |
-          grep -q "services" docker-compose.yml \
+          grep -q "services" accessevent/docker-compose.yml \
             && echo "PASS: services found" \
             || echo "FAIL: no services"
-          grep -q "postgres" docker-compose.yml \
+          grep -q "postgres" accessevent/docker-compose.yml \
             && echo "PASS: postgres found" \
             || echo "FAIL: no postgres"
  
       - name: Check .dockerignore
         run: |
-          test -f .dockerignore \
+          test -f accessevent/.dockerignore \
             && echo "PASS: .dockerignore exists" \
             || echo "FAIL: no .dockerignore"
  
